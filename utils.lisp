@@ -1,6 +1,4 @@
-;;;; vtools.lisp
-
-(in-package #:vtools)
+(in-package :vtools)
 
 ;; from On Lisp:
 (defun mkstr (&rest args)
