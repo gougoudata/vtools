@@ -40,12 +40,14 @@
 
 (defun min-energy-of-energy-alist (energy-alist)
   (format *energy-stream* "~a minimum energies:~%" (car energy-alist))
-  (let* ((energies (cdr energy-alist))
-	 (min (loop
-		for pair in energies
-		minimize (cdr pair)))
-	 (latparam (car (rassoc min energies))))
-    (format *energy-stream* "~a A (~a A^3)     ~a eV~%~%" latparam (cube latparam) min)))
+  (cond ((car energy-alist)
+	 (let* ((energies (cdr energy-alist))
+		(min (loop
+			for pair in energies
+			minimize (cdr pair)))
+		(latparam (car (rassoc min energies))))
+	   (format *energy-stream* "~a A (~a A^3)     ~a eV~%~%" latparam (cube latparam) min)))
+	(t (format *energy-stream* "NO ENERGIES"))))
 
 (defun scale-energies (energy-alist factor)
   (flet ((f (pair) (cons (car pair) (* factor (cdr pair)))))
