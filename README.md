@@ -4,7 +4,10 @@
 vtools makes my research job easier by making the use of Fortran and Unix less enervating.
 
 ### How to use
-- You'll usually want to be lazy and just summarize the energies. Call it like so:
+- Read [this](http://xach.livejournal.com/278047.html?thread=674335) and get your system set up. Then load the system like so:
+<pre><code>CL-USER> (ql:quickload "vtools")</code></pre>
+
+- You'll usually want to be lazy and just summarize the energies. This is how you do it:
 
 <pre><code>CL-USER> (vtools:summarize-energies *vasp-root-dir* "dir-regex")</code></pre>
 
