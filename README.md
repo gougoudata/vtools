@@ -8,7 +8,6 @@ vtools makes my research job easier by making the use of Fortran and Unix less e
 <pre><code>CL-USER> (ql:quickload "vtools")</code></pre>
 
 - You'll usually want to be lazy and just summarize the energies. This is how you do it:
-
 <pre><code>CL-USER> (vtools:summarize-energies *vasp-root-dir* "dir-regex")</code></pre>
 
 
