@@ -13,7 +13,7 @@
   (let ((dirstrings (mapcar #'namestring (dirs-matching-regex parent-dir regex-for-dirs))))
     (loop
        for dirstring in dirstrings
-       do (shell-command (conc "cd " dirstring " && sh /homes/mohrland/system/psr/get-energies.sh")))))
+       do (trivial-shell:shell-command (conc "cd " dirstring " && sh /homes/mohrland/system/psr/get-energies.sh")))))
 
 (defmacro with-git-update ((parent-dir regex-for-dirs) &rest forms)
   `(progn
