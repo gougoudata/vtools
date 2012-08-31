@@ -2,81 +2,8 @@
 
 (in-package #:vtools)
 
-;; from On Lisp:
-(defun mkstr (&rest args)
-  (with-output-to-string (s)
-    (dolist (a args) (princ a s))))
-
-(defun symb (&rest args)
-  (values (intern (apply #'mkstr args))))
-
-(defun group (source n)
-  (if (zerop n) (error "zero length"))
-  (labels ((rec (source acc)
-             (let ((rest (nthcdr n source)))
-               (if (consp rest)
-                   (rec rest (cons
-                               (subseq source 0 n)
-                               acc))
-                   (nreverse
-                     (cons source acc))))))
-    (if source (rec source nil) nil)))
-
-(defun flatten (x)
-  (labels ((rec (x acc)
-             (cond ((null x) acc)
-                   ((atom x) (cons x acc))
-                   (t (rec
-                        (car x)
-                        (rec (cdr x) acc))))))
-    (rec x nil)))
-
-;; from Let Over Lambda:
-(defun |#`-reader| (stream sub-char numarg)
-	    (declare (ignore sub-char))
-	      (unless numarg (setq numarg 1))
-	        `(lambda ,(loop for i from 1 to numarg
-			                         collect (symb 'a i))
-		        ,(funcall
-			          (get-macro-character #\`) stream nil)))
-(set-dispatch-macro-character
-   #\# #\` #'|#`-reader|)
-
-
-;; probably should be utilities:
-(defvar *pretty-shell* t)
-(defun cmd (cmd-str)
-  (if *pretty-shell*
-      (format t (trivial-shell:shell-command cmd-str))
-      (trivial-shell:shell-command cmd-str)))
-	      
-(defun conc (&rest strings) (apply #'concatenate 'string strings))
-(defun conc-with-spaces (&rest strings)
-  (loop
-     for string in (rest strings)
-     with result = (first strings)
-     do (setq result (conc result " " string))
-     finally (return result)))
-(defmacro rmvar (var) `(makunbound ',var))
-(defun cube (x) (* x x x))
-
-(defun alist<-datafile (file)
-    (flet ((f (str) 
-	   (with-input-from-string (str str) 
-	     (let ((x (read str))
-		   (y (read str)))
-	       (cons x y)))))
-    (let ((lines (with-open-file (in file :direction :input)
-		   (loop for line = (read-line in nil)
-		      while line collect line))))
-      (mapcar #'f lines))))
-
-
-
-
-;; start of real code
-(defvar vasp-root-dir "/scr1/mohrland/")
-(defvar energy-stream)
+(defvar *vasp-root-dir* "/scr1/mohrland/")
+(defvar *energy-stream*)
 
 (defun dirs-matching-regex (parent-path regex)
   (flet ((pred (x) (cl-ppcre:scan regex (namestring x))))
@@ -112,13 +39,13 @@
        collect (cons dir-string (read-energies-into-alist (conc dir-string "data/energies.dat"))))))
 
 (defun min-energy-of-energy-alist (energy-alist)
-  (format energy-stream "~a minimum energies:~%" (car energy-alist))
+  (format *energy-stream* "~a minimum energies:~%" (car energy-alist))
   (let* ((energies (cdr energy-alist))
 	 (min (loop
 		for pair in energies
 		minimize (cdr pair)))
 	 (latparam (car (rassoc min energies))))
-    (format energy-stream "~a A (~a A^3)     ~a eV~%~%" latparam (cube latparam) min)))
+    (format *energy-stream* "~a A (~a A^3)     ~a eV~%~%" latparam (cube latparam) min)))
 
 (defun scale-energies (energy-alist factor)
   (flet ((f (pair) (cons (car pair) (* factor (cdr pair)))))
@@ -145,7 +72,7 @@
   (progn
     (git-update parent-dir regex-for-dirs)
     (let ((ens (multiple-read-energies-into-alist parent-dir regex-for-dirs))
-	  (energy-stream (if stream-supplied-p stream t)))
+	  (*energy-stream* (if stream-supplied-p stream t)))
       (mapcar #'min-energy-of-energy-alist (double-bcc-energies (halve-hcp-energies ens))))))
   
 (defun adjust-energies (parent-dir regex-for-dirs)
@@ -180,26 +107,26 @@
 (defun summarize-energies (parent-dir regex-for-dirs)
   (let* ((ens (multiple-read-energies-into-alist parent-dir regex-for-dirs))
 	 (adjusted-ens (double-bcc-energies (halve-hcp-energies ens)))
-	 (summary-dir (conc vasp-root-dir "summary/")))
+	 (summary-dir (conc *vasp-root-dir* "summary/")))
     (let ((file (conc summary-dir "energies-summary.dat")))
       (with-open-file (s file :direction :output :if-exists :supersede)
-	(let ((energy-stream s))
+	(let ((*energy-stream* s))
 	  (mapcar #'min-energy-of-energy-alist adjusted-ens))))
     (loop
        for alist in ens do
        (let* ((file-string (car alist))
 	      (data (cdr alist))
-	      (outfile (conc vasp-root-dir "summary/" (car (last (ppcre:split "/" file-string)))
+	      (outfile (conc *vasp-root-dir* "summary/" (car (last (ppcre:split "/" file-string)))
 			     ".energies-vs-volume.unadjusted.dat")))
 	 (datafile<-alist (cdr alist) outfile :transform1 #'cube)))
     (loop
        for alist in adjusted-ens do
        (let* ((file-string (car alist))
 	      (data (cdr alist))
-	      (outfile (conc vasp-root-dir "summary/" (car (last (ppcre:split "/" file-string)))
+	      (outfile (conc *vasp-root-dir* "summary/" (car (last (ppcre:split "/" file-string)))
 			     ".energies-vs-volume.adjusted.dat")))
 	 (datafile<-alist (cdr alist) outfile :transform1 #'cube))))
-  (git-pushall (conc vasp-root-dir "summary/")))
+  (git-pushall (conc *vasp-root-dir* "summary/")))
 
 (defun datafile<-alist (alist outfile &key (transform1 #'identity) (transform2 #'identity))
 	   (with-open-file (out outfile :direction :output :if-exists :supersede)
