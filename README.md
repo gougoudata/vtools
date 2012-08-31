@@ -3,6 +3,12 @@
 ### Description
 vtools makes my research job easier by making the use of Fortran and Unix less enervating.
 
+### How to use
+- You'll usually want to be lazy and just summarize the energies. Call it like so:
+
+<pre><code>CL-USER> (vtools:summarize-energies *vasp-root-dir* "dir-regex")</code></pre>
+
+
 ### Todo
 - add documentation
 - make perspicuous and extensible API
