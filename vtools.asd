@@ -10,5 +10,6 @@
                #:cl-fad
                #:cl-grace)
   :components ((:file "package")
+	       (:file "utils")
                (:file "vtools")))
 
