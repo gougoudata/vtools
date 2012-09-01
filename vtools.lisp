@@ -4,7 +4,7 @@
 
 (defvar *vasp-root-dir* "/scr1/mohrland/")
 (defvar *energy-stream*)
-
+(defvar *get-energies-script* "/homes/mohrland/system/psr/get-energies.sh")
 (defun dirs-matching-regex (parent-path regex)
   (flet ((pred (x) (cl-ppcre:scan regex (namestring x))))
     (remove-if-not #'pred (cl-fad:list-directory parent-path))))
@@ -13,7 +13,7 @@
   (let ((dirstrings (mapcar #'namestring (dirs-matching-regex parent-dir regex-for-dirs))))
     (loop
        for dirstring in dirstrings
-       do (trivial-shell:shell-command (conc "cd " dirstring " && sh /homes/mohrland/system/psr/get-energies.sh")))))
+       do (trivial-shell:shell-command (conc "cd " dirstring " && sh " *get-energies-script*)))))
 
 (defmacro with-git-update ((parent-dir regex-for-dirs) &rest forms)
   `(progn
