@@ -13,7 +13,7 @@ vtools makes my research job easier by making the use of Vasp and Unix less ener
 <pre><code>CL-USER> (vtools:summarize-energies *vasp-root-dir* "dir-regex")</code></pre>
 
 #### Submitting jobs
-If you want to use Emacs for submitting jobs, you can paste the `submit-jobs` function in your `*scratch*` buffer, evaluate it, then call it. Note that you will lose control of Emacs until all of the jobs are finished. Yes, I too wish Emacs had threads. It's fairly self-documented -- if you Emacs, you'll be able to figure it out.
+If you want to use Emacs for submitting jobs, you can paste the `submit-jobs` function in your `*scratch*` buffer, evaluate it, then call it. Note that you will lose control of Emacs until all of the jobs are finished. (Yes, I too wish Emacs had threads.) The function is fairly self-documented -- if you know Emacs, you'll be able to figure it out.
 
    
 ### Todo
