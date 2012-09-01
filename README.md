@@ -10,7 +10,6 @@ vtools makes my research job easier by making the use of Fortran and Unix less e
 - Put the `get-enegies.sh` script in your path. Then change the special variable `*get-energies-script*` appropriately.
 
 - You'll usually want to be lazy and just summarize the energies. This is how you do it:
-
 <pre><code>CL-USER> (vtools:summarize-energies *vasp-root-dir* "dir-regex")</code></pre>
 
 
