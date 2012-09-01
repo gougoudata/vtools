@@ -56,4 +56,4 @@ Warning: This with overwrite directories with the same names in *VASP-PARENT-DIR
              "/local/openmpi-gcc/bin/mpirun -wdir"
              dir
              "-np 12 /homes/mohrland/bin/vasp")))
-          ))))
+          )))))
