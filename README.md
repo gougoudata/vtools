@@ -1,7 +1,7 @@
 # vtools
 
 ### Description
-vtools makes my research job easier by making the use of Fortran and Unix less enervating.
+vtools makes my research job easier by making the use of Vasp and Unix less enervating.
 
 ### How to use
 - Read [this](http://xach.livejournal.com/278047.html?thread=674335) and get your system set up. Then load the system like so:
@@ -12,7 +12,10 @@ vtools makes my research job easier by making the use of Fortran and Unix less e
 - You'll usually want to be lazy and just summarize the energies. This is how you do it:
 <pre><code>CL-USER> (vtools:summarize-energies *vasp-root-dir* "dir-regex")</code></pre>
 
+#### Submitting jobs
+If you want to use Emacs for submitting jobs, you can paste the `submit-jobs` function in your `*scratch*` buffer, evaluate it, then call it. Note that you will lose control of Emacs until all of the jobs are finished. Yes, I too wish Emacs had threads. It's fairly self-documented -- if you Emacs, you'll be able to figure it out.
 
+   
 ### Todo
 - add documentation
 - make perspicuous and extensible API
