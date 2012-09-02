@@ -106,7 +106,7 @@
 		   do (format outfile "~,3f ~,6f~%" (cube (car datum)) (cdr datum)))))))))
 
 		   
-(defun summarize-energies (parent-dir regex-for-dirs)
+(defun summarize-energies (parent-dir regex-for-dirs &key noisyp)
   (let* ((ens (multiple-read-energies-into-alist parent-dir regex-for-dirs))
 	 (adjusted-ens (double-bcc-energies (halve-hcp-energies ens)))
 	 (summary-dir (conc *vasp-root-dir* "summary/")))
@@ -128,7 +128,8 @@
 	      (outfile (conc *vasp-root-dir* "summary/" (car (last (ppcre:split "/" file-string)))
 			     ".energies-vs-volume.adjusted.dat")))
 	 (datafile<-alist (cdr alist) outfile :transform1 #'cube))))
-  (git-pushall (conc *vasp-root-dir* "summary/")))
+  (git-pushall (conc *vasp-root-dir* "summary/"))
+  (when noisyp (cat-file (conc *vasp-root-dir* "summary/energies-summary.dat"))))
 
 (defun datafile<-alist (alist outfile &key (transform1 #'identity) (transform2 #'identity))
 	   (with-open-file (out outfile :direction :output :if-exists :supersede)
