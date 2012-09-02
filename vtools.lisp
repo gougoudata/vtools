@@ -39,14 +39,14 @@
        collect (cons dir-string (read-energies-into-alist (conc dir-string "data/energies.dat"))))))
 
 (defun min-energy-of-energy-alist (energy-alist)
-  (format *energy-stream* "~a minimum energies:~%" (car energy-alist))
+  (format *energy-stream* "~a minimum energy:~%" (car energy-alist))
   (cond ((cdr energy-alist)
 	 (let* ((energies (cdr energy-alist))
 		(min (loop
 			for pair in energies
 			minimize (cdr pair)))
 		(latparam (car (rassoc min energies))))
-	   (format *energy-stream* "~a A (~a A^3)     ~a eV~%~%" latparam (cube latparam) min)))
+	   (format *energy-stream* "~,3f A (~,6f A^3)     ~,6f eV~%~%" latparam (cube latparam) min)))
 	(t (format *energy-stream* "NO ENERGIES~%~%"))))
 
 (defun scale-energies (energy-alist factor)
