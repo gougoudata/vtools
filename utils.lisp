@@ -41,13 +41,16 @@
    #\# #\` #'|#`-reader|)
 
 
-;; probably should be utilities:
 (defvar *pretty-shell* t)
+
 (defun cmd (cmd-str)
   (if *pretty-shell*
       (format t (trivial-shell:shell-command cmd-str))
       (trivial-shell:shell-command cmd-str)))
 	      
+(defun mkdir (pathname)
+  (ensure-directories-exist pathname))
+
 (defun conc (&rest strings) (apply #'concatenate 'string strings))
 (defun conc-with-spaces (&rest strings)
   (loop
