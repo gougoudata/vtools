@@ -48,6 +48,11 @@
       (format t (trivial-shell:shell-command cmd-str))
       (trivial-shell:shell-command cmd-str)))
 	      
+(defun cat-file (file &optional (out t))
+  (with-open-file (in file)
+    (loop for line = (read-line in nil)
+	 while line do (format out "~a~%" line))))
+
 (defun mkdir (pathname)
   (ensure-directories-exist pathname))
 
