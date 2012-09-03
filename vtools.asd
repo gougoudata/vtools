@@ -11,5 +11,5 @@
                #:cl-grace)
   :components ((:file "package")
 	       (:file "utils")
-               (:file "vtools")))
-
+               (:file "vtools")
+               (:file "submit-jobs")))
