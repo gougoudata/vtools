@@ -2,7 +2,7 @@
 
 (in-package #:vtools)
 
-(defvar *vasp-root-dir* "/scr1/mohrland/")
+(defvar *job-root-directory* "/scr1/mohrland/")
 (defvar *energy-stream*)
 (defvar *get-energies-script* "/homes/mohrland/system/psr/get-energies.sh")
 (defun dirs-matching-regex (parent-path regex)
@@ -109,7 +109,7 @@
 (defun summarize-energies (parent-dir regex-for-dirs &key noisyp)
   (let* ((ens (multiple-read-energies-into-alist parent-dir regex-for-dirs))
 	 (adjusted-ens (double-bcc-energies (halve-hcp-energies ens)))
-	 (summary-dir (conc *vasp-root-dir* "summary/")))
+	 (summary-dir (conc *job-root-directory* "summary/")))
     (let ((file (conc summary-dir "energies-summary.dat")))
       (with-open-file (s file :direction :output :if-exists :supersede)
 	(let ((*energy-stream* s))
@@ -118,18 +118,18 @@
        for alist in ens do
        (let* ((file-string (car alist))
 	      (data (cdr alist))
-	      (outfile (conc *vasp-root-dir* "summary/" (car (last (ppcre:split "/" file-string)))
+	      (outfile (conc *job-root-directory* "summary/" (car (last (ppcre:split "/" file-string)))
 			     ".energies-vs-volume.unadjusted.dat")))
 	 (datafile<-alist (cdr alist) outfile :transform1 #'cube)))
     (loop
        for alist in adjusted-ens do
        (let* ((file-string (car alist))
 	      (data (cdr alist))
-	      (outfile (conc *vasp-root-dir* "summary/" (car (last (ppcre:split "/" file-string)))
+	      (outfile (conc *job-root-directory* "summary/" (car (last (ppcre:split "/" file-string)))
 			     ".energies-vs-volume.adjusted.dat")))
 	 (datafile<-alist (cdr alist) outfile :transform1 #'cube))))
-  (git-pushall (conc *vasp-root-dir* "summary/"))
-  (when noisyp (cat-file (conc *vasp-root-dir* "summary/energies-summary.dat"))))
+  (git-pushall (conc *job-root-directory* "summary/"))
+  (when noisyp (cat-file (conc *job-root-directory* "summary/energies-summary.dat"))))
 
 (defun datafile<-alist (alist outfile &key (transform1 #'identity) (transform2 #'identity))
 	   (with-open-file (out outfile :direction :output :if-exists :supersede)
