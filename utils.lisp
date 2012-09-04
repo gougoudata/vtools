@@ -58,11 +58,15 @@
 
 (defun conc (&rest strings) (apply #'concatenate 'string strings))
 (defun conc-with-spaces (&rest strings)
-  (loop
+  (apply #'conc-with-char #\space strings))
+(defun conc-with-char (field-separator &rest strings)
+    (loop
      for string in (rest strings)
      with result = (first strings)
-     do (setq result (conc result " " string))
+     do (setq result (conc result (string field-separator) string))
      finally (return result)))
+(defun delimit-string (delimiter string)
+  (conc (string delimiter) string (string delimiter)))
 (defmacro rmvar (var) `(makunbound ',var))
 (defun cube (x) (* x x x))
 
