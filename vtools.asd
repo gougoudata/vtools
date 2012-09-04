@@ -8,8 +8,10 @@
   :depends-on (#:trivial-shell
                #:cl-ppcre
                #:cl-fad
-               #:cl-grace)
+               #:cl-grace
+	       #:rcl)
   :components ((:file "package")
 	       (:file "utils")
                (:file "vtools")
-               (:file "submit-jobs")))
+               (:file "submit-jobs")
+	       (:file "r-plots")))
