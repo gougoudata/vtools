@@ -1,6 +1,7 @@
 (in-package :vtools)
 
-(rcl:r-init)
+(defun start-r ()
+  (rcl:r-init))
 
 (defvar *r-quad-plot-function-string*
   "(function(infile,outfile,title){
