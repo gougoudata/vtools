@@ -63,11 +63,6 @@
 	 (double-energies (alist) (scale-energies alist 2.0)))
     (mapcar #'(lambda (x) (if (pred x) (double-energies x) x)) energies-list )))
 
-(defun quarter-hcp-energies (energies-list)
-  (flet ((pred (x) (cl-ppcre:scan "hcp" (car x)))
-	 (quarter-energies (alist) (scale-energies alist .25)))
-    (mapcar #'(lambda (x) (if (pred x) (quarter-energies x) x)) energies-list )))
-
 (defun halve-hcp-energies (energies-list)
   (flet ((pred (x) (cl-ppcre:scan "hcp" (car x)))
 	 (halve-energies (alist) (scale-energies alist .5)))
