@@ -29,7 +29,7 @@
     (let ((lines (with-open-file (in file :direction :input)
 		   (loop for line = (read-line in nil)
 		      while line collect line))))
-      (mapcar #'f lines))))
+      (remove-duplicates (mapcar #'f lines) :test #'= :key #'car))))
 
 (defun multiple-read-energies-into-alist (parent-dir regex-for-dirs)
   (git-update parent-dir regex-for-dirs)
@@ -53,6 +53,10 @@
   (flet ((f (pair) (cons (car pair) (* factor (cdr pair)))))
   (cons (car energy-alist)
 	(mapcar #'f (cdr energy-alist)))))
+
+(defun remove-dups-of-energies (energy-alist)
+  (remove-duplicates (cdr energy-alist) :test #'= :key #'car))
+
 
 (defun double-bcc-energies (energies-list)
   (flet ((pred (x) (cl-ppcre:scan "bcc" (car x)))
