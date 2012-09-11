@@ -2,6 +2,7 @@
 
 (in-package #:vtools)
 
+(defvar *dashes* "------------------------------------------------------------")
 (defvar *job-root-directory* "/scr1/mohrland/")
 (defvar *energy-stream*)
 (defvar *get-energies-script* "/homes/mohrland/system/psr/get-energies.sh")
@@ -39,7 +40,8 @@
        collect (cons dir-string (read-energies-into-alist (conc dir-string "data/energies.dat"))))))
 
 (defun min-energy-of-energy-alist (energy-alist)
-  (format *energy-stream* "~a minimum energy:~%" (car energy-alist))
+  (format *energy-stream* *dashes*)
+  (format *energy-stream* "~&~a minimum energy:~%" (car energy-alist))
   (cond ((cdr energy-alist)
 	 (let* ((energies (cdr energy-alist))
 		(min (loop
