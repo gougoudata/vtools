@@ -46,7 +46,7 @@
 			for pair in energies
 			minimize (cdr pair)))
 		(latparam (car (rassoc min energies))))
-	   (format *energy-stream* "~,3f A (~,6f A^3)     ~,6f eV~%~%" latparam (cube latparam) min)))
+	   (format *energy-stream* "~,6f A (~,6f A^3)     ~,6f eV~%~%" latparam (cube latparam) min)))
 	(t (format *energy-stream* "NO ENERGIES~%~%"))))
 
 (defun scale-energies (energy-alist factor)
@@ -92,7 +92,7 @@
 				     :direction :output :if-exists :supersede)
 	      (loop
 		 for datum in (cdr alist)
-		 do (format outfile "~,3f ~,6f~%" (car datum) (cdr datum))))))))
+		 do (format outfile "~,6f ~,6f~%" (car datum) (cdr datum))))))))
 
 (defun adjust-energies-and-volumes (parent-dir regex-for-dirs)
   (progn
@@ -107,7 +107,7 @@
 			   :direction :output :if-exists :supersede)
 		(loop
 		   for datum in (cdr alist)
-		   do (format outfile "~,3f ~,6f~%" (cube (car datum)) (cdr datum)))))))))
+		   do (format outfile "~,6f ~,6f~%" (cube (car datum)) (cdr datum)))))))))
 
 		   
 (defun summarize-energies (parent-dir regex-for-dirs &key noisyp)
@@ -139,7 +139,7 @@
 	   (with-open-file (out outfile :direction :output :if-exists :supersede)
 	     (loop
 		for datum in alist do
-		(format out "~,3f ~,6f~%"
+		(format out "~,6f ~,6f~%"
 			(funcall transform1 (car datum))
 			(funcall transform2 (cdr datum))))))
 		   
@@ -148,7 +148,7 @@
     (with-open-file (out outfile :direction :output :if-exists :supersede)
       (loop
 	 for datum in data
-	 do (format out "~,3f ~,6f~%"
+	 do (format out "~,6f ~,6f~%"
 		    (funcall col1trans (car datum))
 		    (funcall col2trans (cdr datum)))))))
       
