@@ -75,7 +75,7 @@
        for dir in (dirs-matching-regex parent-dir regex-for-dirs)
        do (trivial-shell:shell-command (conc-with-spaces "cd" (namestring dir) "&& sh" *get-energies-script*))))
 
-(defun datafile-to-list (file)
+(defun read-data (file)
   (with-open-file (in file :direction :input)
     (loop for line = (read-line in nil)
        while line
