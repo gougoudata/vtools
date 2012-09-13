@@ -5,7 +5,8 @@
 (defvar *dashes* "------------------------------------------------------------")
 (defvar *job-root-directory* "/scr1/mohrland/")
 (defvar *energy-stream*)
-(defvar *get-energies-script* "/homes/mohrland/system/psr/get-energies.sh")
+(defvar *get-energies-script* "~/src/lisp/vtools/get-energies.sh")
+
 (defun dirs-matching-regex (parent-path regex)
   (flet ((pred (x) (cl-ppcre:scan regex (namestring x))))
     (remove-if-not #'pred (cl-fad:list-directory parent-path))))
