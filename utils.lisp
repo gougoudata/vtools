@@ -73,7 +73,14 @@
 (defun update-raw-energy-data (parent-dir regex-for-dirs)
     (loop
        for dir in (dirs-matching-regex parent-dir regex-for-dirs)
-       do (trivial-shell:shell-command (conc-with-spaces "cd" (namestring dir) "&& sh" *get-energies-script*))))
+       do (trivial-shell:shell-command
+	   (conc-with-spaces "cd" (namestring dir) "&& sh" *get-energies-script*))))
+
+(defun job-finished-nicely-p (job-dir-path)
+  (let ((outcar (make-pathname :name "OUTCAR" :defaults job-dir-path)))
+    (cl-ppcre:scan "Voluntary"
+		   (trivial-shell:shell-command
+		    (conc-with-spaces "tail -2" (namestring outcar))))))
 
 (defun read-data (file)
   (with-open-file (in file :direction :input)
