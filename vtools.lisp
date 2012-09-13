@@ -142,6 +142,17 @@
 			(funcall transform1 (car datum))
 			(funcall transform2 (cdr datum))))))
 		   
+(defun alist<-datafile (file)
+    (flet ((f (str) 
+	   (with-input-from-string (str str) 
+	     (let ((x (read str))
+		   (y (read str)))
+	       (cons x y)))))
+    (let ((lines (with-open-file (in file :direction :input)
+		   (loop for line = (read-line in nil)
+		      while line collect line))))
+      (mapcar #'f lines))))
+
 (defun file-tranform (infile col1trans col2trans outfile)
   (let ((data (alist<-datafile infile)))
     (with-open-file (out outfile :direction :output :if-exists :supersede)

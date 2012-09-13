@@ -70,16 +70,10 @@
 (defmacro rmvar (var) `(makunbound ',var))
 (defun cube (x) (* x x x))
 
-(defun alist<-datafile (file)
-    (flet ((f (str) 
-	   (with-input-from-string (str str) 
-	     (let ((x (read str))
-		   (y (read str)))
-	       (cons x y)))))
-    (let ((lines (with-open-file (in file :direction :input)
-		   (loop for line = (read-line in nil)
-		      while line collect line))))
-      (mapcar #'f lines))))
+(defun update-raw-energy-data (parent-dir regex-for-dirs)
+    (loop
+       for dir in (dirs-matching-regex parent-dir regex-for-dirs)
+       do (trivial-shell:shell-command (conc-with-spaces "cd" (namestring dir) "&& sh" *get-energies-script*))))
 
 (defun datafile-to-list (file)
   (with-open-file (in file :direction :input)
