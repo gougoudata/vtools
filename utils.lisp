@@ -81,3 +81,41 @@
 		      while line collect line))))
       (mapcar #'f lines))))
 
+(defun datafile-to-list (file)
+  (with-open-file (in file :direction :input)
+    (loop for line = (read-line in nil)
+       while line
+       collect
+	 (let ((return-list nil))
+	   (with-input-from-string (s line)
+	     (loop for word = (read s nil nil)
+		while word do (push word return-list)))
+	   (nreverse return-list)))))
+    
+(defun write-data (outfile data-list sigfigs)
+  (assert (= (length data-list)
+	     (length sigfigs)))
+  (with-open-file (out outfile
+		       :direction :output
+		       :if-exists :supersede)
+    (dolist (d data-list)
+      (loop
+	 for n in d
+	 for sf in sigfigs
+	 do (format out (conc "~," (write-to-string sf) "f" "    ") n)
+	 finally (terpri out)))))
+
+(defun column-transform (data-list transforms)
+  (loop for d in data-list collect
+    (loop
+       for n in d
+       for tr in transforms
+       collect (funcall tr n))))
+  
+;; one-off
+(defun cubed-en-triplets (energy-list)
+  (loop for en in energy-list
+     collect (cons (car en)
+		   (cons (cube (car en))
+			 (cdr en)))))
+
