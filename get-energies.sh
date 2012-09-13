@@ -5,7 +5,7 @@ mkdir ./data ;
 
 for dir in $( ls ); do
     if (tail $dir/OUTCAR | grep "Voluntary"); then 
-	grep 'free  energy' $dir/OUTCAR | awk -v dir=${dir} '{print dir " " $5}' >> ./data/energies-$date.dat ;
+	grep 'free  energy' $dir/OUTCAR | tail -1 | awk -v dir=${dir} '{print dir " " $5}' >> ./data/energies-$date.dat ;
     fi
 done
 
