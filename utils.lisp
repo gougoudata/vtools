@@ -81,6 +81,8 @@
   (conc (string delimiter) string (string delimiter)))
 (defmacro rmvar (var) `(makunbound ',var))
 (defun cube (x) (* x x x))
+(defun last1 (list) (first (last list)))
+(defun member1 (&rest args) (first (apply #'member args)))
 
 (defun update-raw-energy-data (parent-dir regex-for-dirs)
     (loop
@@ -99,11 +101,11 @@
     (loop for line = (read-line in nil)
        while line
        collect
-	 (let ((return-list nil))
-	   (with-input-from-string (s line)
-	     (loop for word = (read s nil nil)
-		while word do (push word return-list)))
-	   (nreverse return-list)))))
+       (let ((return-list nil))
+	 (with-input-from-string (s line)
+	   (loop for word = (read s nil nil)
+	      while word do (push word return-list)))
+	 (nreverse return-list)))))
     
 (defun write-data (outfile data-list sigfigs)
   (assert (= (length data-list)
