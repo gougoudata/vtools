@@ -8,6 +8,7 @@
   :depends-on (#:trivial-shell
                #:cl-ppcre
                #:cl-fad
+	       #:iterate
                #:cl-grace
 	       #:rcl)
   :components ((:file "package")
