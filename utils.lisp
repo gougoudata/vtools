@@ -40,6 +40,15 @@
 (set-dispatch-macro-character
    #\# #\` #'|#`-reader|)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; todo: *data-file* ought to be modifiable -- all the more reason to get rid of the script altogether and use lisp
+(defvar *get-energies-script* "~/src/lisp/vtools/get-energies.sh")
+(defvar *data-file* (make-pathname
+		     :name "energies"
+		     :type "dat"
+		     :directory '(:relative "data")))
+(defvar *grand-directory* (pathname "/scr1/mohrland/"))
 
 (defvar *pretty-shell* t)
 
@@ -47,7 +56,10 @@
   (if *pretty-shell*
       (format t (trivial-shell:shell-command cmd-str))
       (trivial-shell:shell-command cmd-str)))
-	      
+
+(defun shellcmd (command-string)
+  (trivial-shell:shell-command command-string))
+
 (defun cat-file (file &optional (out t))
   (with-open-file (in file)
     (loop for line = (read-line in nil)
