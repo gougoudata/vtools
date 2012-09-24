@@ -32,7 +32,7 @@ job parent directory!"
 	   (let ((job-pathname (merge-pathnames
 				(make-pathname :directory (list :relative (format nil "~,3f" x)))
 				path)))
-	     (prepare-files job-pathname kpoints-list x)
+	     (prepare-vasp-files job-pathname kpoints-list x)
 	     (format t "Job ~a being submitted now...~%" (namestring job-pathname))
 	     (submit-single-job job-pathname)
 	     (format t "Job ~a stopped.~%" job-pathname)
@@ -66,7 +66,7 @@ is to merely be copied. Line numbers start at 0."
 	 while line do (format out "~a~%" line)))))
 
 
-(defun prepare-files (path latparam &optional kpoints-list)
+(defun prepare-vasp-files (path latparam &optional kpoints-list)
   (let ((jobpath (merge-pathnames (make-pathname :directory (list :relative (format nil "~,3f" latparam)))
 				  path)))
     (ensure-directories-exist jobpath)
