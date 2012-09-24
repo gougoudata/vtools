@@ -10,6 +10,12 @@
 (defvar *number-of-cores* 12)
 (defvar *jobs-running-p* nil)
 
+;; util
+(defun file-path (dirpath filestring &optional type)
+  (make-pathname :directory (pathname-directory dirpath)
+				   :name filestring
+				   :type type))
+
 (defun dojobs (&key path low high step excludes-list additionals-list kpoints-list)
   "DOJOBS takes keyword arguments: a path, a range, a step size, a
 list of numbers to exclude, (a man, a plan, a canal, Panama!), a list of numbers to include, and a
@@ -18,10 +24,8 @@ then assumes each number corresponds to a lattice parameter and
 loops across the numbers, creating directories for each job and
 submitting that job to Vasp. You must have a template INCAR,
 KPOINTS, POSCAR, and POTCAR in the job parent directory.
-
 WARNING: This overwrites directories with the same names in
 job parent directory!"
-
   (let ((params (append (loop for y from low to high by step collecting y) additionals-list)))
     (loop for x in params do
 	 (unless (member x excludes-list :test #'=)
