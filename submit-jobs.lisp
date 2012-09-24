@@ -37,12 +37,12 @@ job parent directory!"
 (defun submit-single-job (pathname)
   (trivial-shell:shell-command
    (conc-with-spaces
-    *mpirun-binary*
+    (namestring *mpirun*)
     "-wdir"
     (namestring pathname)
     "-np"
-    *number-of-cores*
-    *vasp-binary*)))
+    (write-to-string *number-of-cores*)
+    (namestring *vasp*))))
 
 (defun replace-line (&key infile outfile replace-line string if-exists)
   "Pipes :infile to :outfile with line :replace-line replaced with :string.
