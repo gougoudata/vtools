@@ -1,4 +1,4 @@
-(in-package :vtools)
+(in-package #:vtools)
 
 (defvar plot (grace:new-plot "-barebones"))
 (defvar data-set-num 0)
