@@ -1,0 +1,16 @@
+ SYSTEM = 
+ PREC = high    ! precision 
+ ISMEAR = 1 
+ IBRION = 1       ! use DIIS algorithm to converge
+ NSW = 200         ! ionic steps
+ NELM = 100         ! no. SCF iter. 
+ IALGOL = 38         ! no. SCF iter. 
+ ISIF = 4         ! no. SCF iter. 
+ NBANDS = 100         ! no. SCF iter. 
+ ICHARG = 1
+ LCHG =.T. 
+ LWAVE =.F. 
+ ISPIN = 2
+ LORBIT=11
+! EDIFFG = -0.05   ! forces smaller 0.05 eV/A
+! EDIFF = 1E-05   ! SCF difference smaller than 1e-5 eV
