@@ -10,9 +10,9 @@
 (defvar *number-of-cores* 12)
 (defvar *jobs-running-p* nil)
 
-(defun submit-jobs (&key path low high step excludes-list additionals-list kpoints-list)
-  "SUMBIT-JOBS takes keyword arguments: A range, a step size, a
-list of numbers to exclude, a list of numbers to include, and a
+(defun dojobs (&key path low high step excludes-list additionals-list kpoints-list)
+  "DOJOBS takes keyword arguments: a path, a range, a step size, a
+list of numbers to exclude, (a man, a plan, a canal, Panama!), a list of numbers to include, and a
 list of kpoints dimensions (with 11x11x11 as the default). It
 then assumes each number corresponds to a lattice parameter and
 loops across the numbers, creating directories for each job and
