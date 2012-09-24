@@ -2,21 +2,15 @@
 
 (in-package #:vtools)
 
-(defvar *job-relative-pathstring* "tc-ni-fcc-3-1-kpoints=11")
-(defvar *job-parent-directory*
-  (merge-pathnames (make-pathname :directory (list :relative *job-relative-pathstring*))
-		   *job-root-directory*)
-  "*JOB-PARENT-DIRECTORY* is the directory in which the job directories will be created.
-It should have template files for INCAR, KPOINTS, POSCAR, and POTCAR.")
 (defvar *mpirun* (pathname "/local/openmpi-gcc/bin/mpirun")
-  "*mpirun* is the path your mpirun binary.")
+  "*mpirun* is the path to your mpirun binary.")
 (defvar *vasp* (pathname "/homes/mohrland/bin/vasp")
-  "*vasp* is the path your vasp binary.")
+  "*vasp* is the path to your vasp binary.")
 
 (defvar *number-of-cores* 12)
 (defvar *jobs-running-p* nil)
 
-(defun submit-jobs (&key low high step excludes-list additionals-list kpoints-list)
+(defun submit-jobs (&key path low high step excludes-list additionals-list kpoints-list)
   "SUMBIT-JOBS takes keyword arguments: A range, a step size, a
 list of numbers to exclude, a list of numbers to include, and a
 list of kpoints dimensions (with 11x11x11 as the default). It
@@ -33,7 +27,7 @@ job parent directory!"
 	 (unless (member x excludes-list :test #'=)
 	   (let ((job-pathname (merge-pathnames
 				(make-pathname :directory (list :relative (format nil "~,3f" x)))
-				*job-parent-directory*)))
+				path)))
 	     (prepare-files job-pathname kpoints-list x)
 	     (format t "Job ~a being submitted now...~%" (namestring job-pathname))
 	     (submit-single-job job-pathname)
