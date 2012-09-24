@@ -29,13 +29,13 @@ job parent directory!"
   (let ((params (append (loop for y from low to high by step collecting y) additionals-list)))
     (loop for x in params do
 	 (unless (member x excludes-list :test #'=)
-	   (let ((job-pathname (merge-pathnames
-				(make-pathname :directory (list :relative (format nil "~,3f" x)))
-				path)))
-	     (prepare-vasp-files job-pathname kpoints-list x)
-	     (format t "Job ~a being submitted now...~%" (namestring job-pathname))
-	     (submit-single-job job-pathname)
-	     (format t "Job ~a stopped.~%" job-pathname)
+	   (let ((jobpath (merge-pathnames (make-pathname :directory
+							  (list :relative (format nil "~,3f" x)))
+					   path)))
+	     (prepare-vasp-files path x kpoints-list)
+	     (format t "Job ~a being submitted now...~%" jobpath)
+	     (submit-single-job jobpath)
+	     (format t "Job ~a stopped.~%" jobpath)
 	     )))))
 
 (defun submit-single-job (pathname)
