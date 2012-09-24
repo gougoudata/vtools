@@ -53,7 +53,7 @@ job parent directory!"
 (defun replace-line (&key infile outfile replace-line string if-exists)
   "Pipes :infile to :outfile with line :replace-line replaced with :string.
 :replace-line may be nil if there is to be no replacement and the file
-is to merely be copied."
+is to merely be copied. Line numbers start at 0."
   (with-open-file (out outfile :direction :output :if-exists if-exists)
     (with-open-file (in infile :direction :input)
       (when replace-line
