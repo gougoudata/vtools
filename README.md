@@ -8,11 +8,17 @@ vtools makes my research job easier by making the use of Vasp and Unix less ener
 ``` cl
 CL-USER> (ql:quickload "vtools")
 ```
-- Put the `get-enegies.sh` script in your path. Then change the special variable `*get-energies-script*` appropriately.
+- Put the `get-enegies.sh` script in your path, then change the special variable `*get-energies-script*` appropriately.
 
 - You'll usually want to be lazy and just summarize the energies. If `regex` is a regex that uniquely identifies the directories you want to summarize, then you'd summarize the energies like so:
 ``` cl
 CL-USER> (vtools:summarize "regex")
+```
+Your data will get summarized into `*summary-directory*`. There is a default set, but you can change it if you want.
+
+Assuming you have a Git remote set (the function currently pushes `master` to `origin`) in your `*summary-directory*`, and your public GPG key is authorized on the remote, you can summarize and push in one command with
+``` cl
+CL-USER> (vtools:summarize-and-push "regex")
 ```
 
 #### Submitting jobs
