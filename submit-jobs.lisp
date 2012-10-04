@@ -3,11 +3,13 @@
 (in-package #:vtools)
 
 (defvar *mpirun* (pathname "/local/openmpi-gcc/bin/mpirun")
-  "*mpirun* is the path to your mpirun binary.")
+  "the path to your mpirun binary.")
 (defvar *vasp* (pathname "/homes/mohrland/bin/vasp")
-  "*vasp* is the path to your vasp binary.")
+  "the path to your vasp binary.")
 
-(defvar *number-of-cores* 12)
+(defvar *number-of-cores* 12
+  "how many cores are you going to use to run the jobs?")
+
 (defvar *jobs-running-p* nil)
 
 ;; util
