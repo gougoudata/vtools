@@ -1,47 +1,5 @@
 (in-package #:vtools)
 
-;; from On Lisp:
-(defun mkstr (&rest args)
-  (with-output-to-string (s)
-    (dolist (a args) (princ a s))))
-
-(defun symb (&rest args)
-  (values (intern (apply #'mkstr args))))
-
-(defun group (source n)
-  (if (zerop n) (error "zero length"))
-  (labels ((rec (source acc)
-             (let ((rest (nthcdr n source)))
-               (if (consp rest)
-                   (rec rest (cons
-                               (subseq source 0 n)
-                               acc))
-                   (nreverse
-                     (cons source acc))))))
-    (if source (rec source nil) nil)))
-
-(defun flatten (x)
-  (labels ((rec (x acc)
-             (cond ((null x) acc)
-                   ((atom x) (cons x acc))
-                   (t (rec
-                        (car x)
-                        (rec (cdr x) acc))))))
-    (rec x nil)))
-
-;; from Let Over Lambda:
-(defun |#`-reader| (stream sub-char numarg)
-	    (declare (ignore sub-char))
-	      (unless numarg (setq numarg 1))
-	        `(lambda ,(loop for i from 1 to numarg
-			                         collect (symb 'a i))
-		        ,(funcall
-			          (get-macro-character #\`) stream nil)))
-(set-dispatch-macro-character
-   #\# #\` #'|#`-reader|)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 ;; todo: *data-file* ought to be modifiable -- all the more reason to get rid of the script altogether and use lisp
 (defvar *get-energies-script* "~/src/lisp/vtools/get-energies.sh")
 (defvar *grand-directory* (pathname "/scr1/mohrland/"))
@@ -58,8 +16,6 @@
 		     :name "energies"
 		     :type "dat"
 		     :directory '(:relative "data")))
-
-
 
 (defvar *pretty-shell* t)
 
@@ -152,9 +108,6 @@ in D/data/"
        (format s "~&|~A|~{~,6F~^|~}|~%" (first datum) (rest datum)))
   (format s "~&|-|~%"))
 
-
-			
-
 (defun write-energy-summary-file (job-sets)
   (let ((table-data (loop for set in job-sets collect
 			 (let ((setname (last1 (pathname-directory (slot-value set 'path)))))
@@ -164,7 +117,6 @@ in D/data/"
 			 :if-exists :supersede :if-does-not-exist :create)
       (format out "* Energy Summary~%")
       (print-org-table table-data '("Type" "Lattice Param." "Volume" "Energy") :stream out))))
-			
 
 (defun summarize (regex &optional (gparent *grand-directory*))
   (update-raw-energy-data gparent regex)
@@ -243,7 +195,6 @@ in D/data/"
      collect (let* ((latparam (first datum))
 		    (vol (cube latparam)))
 	       (cons latparam (cons vol (rest datum))))))
-
 
 (defun git-command (cmd path)
   (let ((worktree (namestring path)))
