@@ -122,7 +122,8 @@ in D/data/"
   (update-raw-energy-data gparent regex)
   (let ((data (collect-data :regex regex :grandparent gparent)))
     (write-energy-summary-file data)
-    (write-r-data-files data)))
+    (write-r-data-files data))
+  t)
 
 (defun push-summary (&optional (path *summary-directory*))
   (git-commit-all-and-push path))
