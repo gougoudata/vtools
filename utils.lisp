@@ -17,6 +17,12 @@
 		     :type "dat"
 		     :directory '(:relative "data")))
 
+(defvar *remote-branch* "origin"
+  "Git remote branch that you want to push to")
+
+(defvar *local-branch* "master"
+  "Git local branch for summary")
+
 (defvar *pretty-shell* t)
 
 (defun cmd (cmd-str)
@@ -216,7 +222,11 @@ in D/data/"
 
 (defun git-push (path)
   (let ((worktree (namestring path)))
-    (git-command "push origin master" worktree)))
+    (git-command (conc-with-char #\space
+				 "push"
+				 *remote-branch*
+				 *local-branch*)
+		 worktree)))
 
 (defun git-commit-all-and-push (path)
   (let ((worktree (namestring path)))

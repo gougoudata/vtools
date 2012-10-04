@@ -16,10 +16,11 @@ CL-USER> (vtools:summarize "regex")
 ```
 Your data will get summarized into `*summary-directory*`. There is a default set, but you can change it if you want.
 
-Assuming you have a Git remote set (the function currently pushes `master` to `origin`) in your `*summary-directory*`, and your public GPG key is authorized on the remote, you can summarize and push in one command with
+Assuming you have a Git remote set in your `*summary-directory*`, and your public GPG key is authorized on the remote, you can summarize and push in one command with
 ``` cl
 CL-USER> (vtools:summarize-and-push "regex")
 ```
+The default local and remote branches are `master` and `origin`, respectively. You can change them by re-binding `*local-branch*` and/or `*remote-branch*`.
 
 #### Submitting jobs
 If you want to use Emacs for submitting jobs, you can paste the `submit-jobs` function in your `*scratch*` buffer, evaluate it, then call it. Note that you will lose control of Emacs until all of the jobs are finished. (Yes, I too wish Emacs had threads.) The function is fairly self-documented -- if you know Emacs, you'll be able to figure it out.
