@@ -137,7 +137,7 @@ in D/data/"
   (let ((data (slot-value set 'data-list)))
     (iter:iter
       (iter:for d iter:in data)
-      (iter:finding d iter:minimizing (second d)))))
+      (iter:finding d iter:minimizing (third d)))))
 
 ;; for testing
 (defun random-data () (loop repeat 6 collect 
