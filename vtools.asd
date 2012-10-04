@@ -13,6 +13,6 @@
 	       #:rcl)
   :components ((:file "package")
 	       (:file "utils")
-               (:file "vtools")
                (:file "submit-jobs")
+	       (:file "grace-plots")
 	       (:file "r-plots")))
