@@ -5,7 +5,7 @@ vtools makes my research job easier by making the use of Vasp and Unix less ener
 
 ### How to use
 - Read [this](http://xach.livejournal.com/278047.html?thread=674335) and get your system set up. Make sure you grab [this](https://github.com/quicklisp/quicklisp-slime-helper). Then load the system like so:
-``` cl
+``` 
 CL-USER> (ql:quickload "vtools")
 ```
 - Put the `get-enegies.sh` script in your path, then change the special variable `*get-energies-script*` appropriately.
