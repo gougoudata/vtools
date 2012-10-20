@@ -9,10 +9,11 @@
                #:cl-ppcre
                #:cl-fad
 	       #:iterate
-               #:cl-grace
-	       #:rcl)
+	       #:rcl
+               #:cl-grace)
   :components ((:file "package")
 	       (:file "utils")
                (:file "submit-jobs")
+	       (:file "r-plots")
 	       (:file "grace-plots")
-	       (:file "r-plots")))
+	       ))
