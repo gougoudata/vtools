@@ -47,6 +47,7 @@ You can also exclude and/or include certain lattice parameters with the `:exclud
 ### Todo
 - Add exception handling
 - Fix interface to plotting software
+
 ### Suggestions
 I'd like them. Andrew Mohrland <amohrland@gmail.com>.
 

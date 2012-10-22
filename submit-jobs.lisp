@@ -18,7 +18,7 @@
 				   :name filestring
 				   :type type))
 
-(defun dojobs (&key path low high step excludes-list additionals-list kpoints-list)
+(defun dojobs (&key path low high step includes excludes (kpoints-list '(11 11 11)))
   "DOJOBS takes keyword arguments: a path, a range, a step size, a
 list of numbers to exclude, (a man, a plan, a canal, Panama!), a list of numbers to include, and a
 list of kpoints dimensions (with 11x11x11 as the default). It
@@ -28,17 +28,25 @@ submitting that job to Vasp. You must have a template INCAR,
 KPOINTS, POSCAR, and POTCAR in the job parent directory.
 WARNING: This overwrites directories with the same names in
 job parent directory!"
-  (let ((params (append (loop for y from low to high by step collecting y) additionals-list)))
-    (loop for x in params do
-	 (unless (member x excludes-list :test #'=)
-	   (let ((jobpath (merge-pathnames (make-pathname :directory
-							  (list :relative (format nil "~,3f" x)))
-					   path)))
-	     (prepare-vasp-files path x kpoints-list)
-	     (format t "Job ~a being submitted now...~%" jobpath)
-	     (submit-single-job jobpath)
-	     (format t "Job ~a stopped.~%" jobpath)
-	     )))))
+  (assert (null (intersection excludes includes :test #'=)))
+  (let* ((low (rationalize low))
+	 (high (rationalize high))
+	 (step (rationalize step))
+	 (params (nconc (set-difference (loop for p from low to high by step
+					   collect (float p))
+					excludes
+					:test #'=)
+			includes)))
+    (loop for p in params do
+	 (let ((jobpath (merge-pathnames (make-pathname :directory
+							(list :relative (format nil "~,3f" p)))
+					 path)))
+	   (prepare-vasp-files path p kpoints-list)
+	   (format t "Job ~a submitted... " jobpath)
+	   (submit-single-job jobpath)
+	   (format t "Job stopped.~%")
+	   )))
+  (format t "~&All jobs stopped.~%"))
 
 (defun submit-single-job (pathname)
   (trivial-shell:shell-command
