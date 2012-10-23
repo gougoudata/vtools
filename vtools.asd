@@ -9,6 +9,7 @@
                #:cl-ppcre
                #:cl-fad
 	       #:iterate
+	       #:bordeaux-threads
 	       #:rcl
                #:cl-grace)
   :components ((:file "package")
