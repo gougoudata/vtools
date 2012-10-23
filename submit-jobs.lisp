@@ -95,10 +95,3 @@ is to merely be copied. Line numbers start at 0."
 		  :string (format nil "~,3f" latparam)
 		  :if-exists :supersede)))
 
-(defun cores-in-use ()
-  (length (ppcre:split #\newline
-		       (shellcmd "ps aux | grep vasp | grep -v 'grep vasp'"))))
-
-(defun cores-free ()
-  (- *number-of-cores* (cores-in-use)))
-
