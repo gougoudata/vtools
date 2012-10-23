@@ -22,14 +22,14 @@
 
 (defun dojobs (&key path low high step includes excludes (kpoints-list '(11 11 11)))
   "DOJOBS takes keyword arguments: a path, a range, a step size, a
-list of numbers to exclude, (a man, a plan, a canal, Panama!), a list of numbers to include, and a
-list of kpoints dimensions (with 11x11x11 as the default). It
-then assumes each number corresponds to a lattice parameter and
-loops across the numbers, creating directories for each job and
-submitting that job to Vasp. You must have a template INCAR,
-KPOINTS, POSCAR, and POTCAR in the job parent directory.
-WARNING: This overwrites directories with the same names in
-job parent directory!"
+list of numbers to exclude, (a man, a plan, a canal, Panama!), a list
+of numbers to include, and a list of kpoints dimensions (with 11x11x11
+as the default). It then assumes each number corresponds to a lattice
+parameter and loops across the numbers, creating directories for each
+job and submitting that job to Vasp. You must have a template INCAR,
+KPOINTS, POSCAR, and POTCAR in the job parent directory.  WARNING:
+This overwrites directories with the same names in job parent
+directory!"
   (assert (null (intersection excludes includes :test #'=)))
   (let* ((low (rationalize low))
 	 (high (rationalize high))
