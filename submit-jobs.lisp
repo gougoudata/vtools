@@ -2,6 +2,9 @@
 
 (in-package #:vtools)
 
+(defvar *after-jobs-hooks* nil
+  "Holds functions to be run after jobs are done. functions take zero arguments. (I may end up paying for this later.) Make wise use of dynamic variables.")
+
 (defvar *mpirun* (pathname "/local/openmpi-gcc/bin/mpirun")
   "the path to your mpirun binary.")
 (defvar *vasp* (pathname "/homes/mohrland/bin/vasp")
