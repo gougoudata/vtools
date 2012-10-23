@@ -13,6 +13,8 @@
 (defvar *jobs-running-p* nil)
 
 ;; util
+(defun ../ (path) (make-pathname :directory (butlast (pathname-directory path))))
+
 (defun file-path (dirpath filestring &optional type)
   (make-pathname :directory (pathname-directory dirpath)
 				   :name filestring
