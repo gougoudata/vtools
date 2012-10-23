@@ -44,6 +44,9 @@ and then go take a nap.
 
 You can also exclude and/or include certain lattice parameters with the `:excludes-list` and `:additionals-list` keyword args. The default KPOINTS is 11x11x11. Change it for a particular jobs with the `:kpoints-list` keyword arg.
    
+### Misc notes
+- Currently, `dojobs` treats its lists of jobs to do as sets, not sequences -- Don't expect the jobs to be submitted in any particular order!
+
 ### Todo
 - Add exception handling
 - Fix interface to plotting software
