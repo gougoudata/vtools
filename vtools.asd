@@ -14,6 +14,7 @@
   :components ((:file "package")
 	       (:file "utils")
                (:file "submit-jobs")
+	       (:file "job-listener")
 	       (:file "r-plots")
 	       (:file "grace-plots")
 	       ))
